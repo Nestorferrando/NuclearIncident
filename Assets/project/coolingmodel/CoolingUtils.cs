@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using Random = System.Random;
 
 public class CoolingUtils {
 
@@ -9,6 +10,8 @@ public class CoolingUtils {
     {
         EMPTY,PUMP,PIPE,BEGINNING,ENDING
     }
+
+    static Random _random = new Random();
 
 
     public static CoolingSystem readFromResource(String resourceName)
@@ -117,7 +120,12 @@ public class CoolingUtils {
 
             if (elem[pointY*levelBitmap.width + pointX].Equals(CoolingElem.PUMP))
             {
-                Pump pump = new Pump("16F48", new Vector2(pointX, pointY));
+                int num = _random.Next(0, 26); // Zero to 25
+                char let = (char)('A' + num);
+
+               ;
+
+               Pump pump = new Pump(_random.Next(10, 99) + "" + let + "" + _random.Next(10, 99), new Vector2(pointX, pointY));
                 pump.ConnectedPipes.Add(pipe);
                 pipe.ConnectedPumps.Add(pump);
                 cooling.Pumps.Add(pump);

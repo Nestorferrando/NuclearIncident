@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 
@@ -62,6 +63,29 @@ public class CentralMapDrawer
             outputImage[y - 1][x + 1] = new ScreenCharacter(0, Color.white, Color.white);
             outputImage[y][x + 1] = new ScreenCharacter(0, Color.white, Color.white);
             outputImage[y + 1][x + 1] = new ScreenCharacter(0, Color.white, Color.white);
+
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j=0;j< 12; j++)
+                {
+                    outputImage[y + 2 + i][x + 2 + j] = new ScreenCharacter(0, Color.cyan, Color.cyan);
+                }
+            }
+            drawString(x + 2, y + 4, "PUMP: "+pump.PumpId, Color.magenta, Color.cyan, outputImage);
+            drawString(x + 2, y + 3, "RAD: "+pump.Radiation+" mR/h", Color.magenta, Color.cyan, outputImage);
+            drawString(x + 2, y + 2, "STATUS: "+pump.Status, Color.magenta, Color.cyan, outputImage);
+        }
+    }
+
+
+    private static void drawString(int x, int y, String str, Color frontColor, Color backgroundColor,
+        ScreenCharacter[][] outputImage)
+    {
+        byte[] encodings = System.Text.Encoding.Default.GetBytes(str);
+        for (int i = 0; i < encodings.Length; i++)
+        {
+            outputImage[y][x + i] = new ScreenCharacter(encodings[i],frontColor,backgroundColor);
         }
     }
 
