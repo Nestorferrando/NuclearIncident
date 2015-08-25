@@ -20,6 +20,7 @@ public class TerminalController : MonoBehaviour
         screenOutput = new ScreenOutput();
         keyboardInput = new KeyboardInput();
         interpreter = new NuclearInterpreter(GetComponent<NuclearGameCore>(),screenOutput);
+        GetComponent<NuclearGameCore>().WarningOutput = screenOutput;
         screenOutput.Start(GetComponent<Console>());
         commandQueue = new Queue<List<char>>();
         keyboardInput.Start();
