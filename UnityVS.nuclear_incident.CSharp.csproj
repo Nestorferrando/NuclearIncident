@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.1.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -76,9 +78,10 @@
   <ItemGroup>
     <Compile Include="Assets\HelloWorld.cs" />
     <Compile Include="Assets\project\CentralMapDrawer.cs" />
+    <Compile Include="Assets\project\coolingmodel\CoreEntrance.cs" />
     <Compile Include="Assets\project\Example_C_Sharp.cs" />
     <Compile Include="Assets\project\KeyboardInput.cs" />
-    <Compile Include="Assets\project\NuclearGameCore.cs" />
+    <Compile Include="Assets\project\gamecore\NuclearGameCore.cs" />
     <Compile Include="Assets\project\NuclearInterpreter.cs" />
     <Compile Include="Assets\project\ScreenCharacter.cs" />
     <Compile Include="Assets\project\ScreenOutput.cs" />

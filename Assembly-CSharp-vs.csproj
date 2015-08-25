@@ -50,15 +50,16 @@
      <Compile Include="Assets\project\CentralMapDrawer.cs" />
      <Compile Include="Assets\project\Example_C_Sharp.cs" />
      <Compile Include="Assets\project\KeyboardInput.cs" />
-     <Compile Include="Assets\project\NuclearGameCore.cs" />
      <Compile Include="Assets\project\NuclearInterpreter.cs" />
      <Compile Include="Assets\project\ScreenCharacter.cs" />
      <Compile Include="Assets\project\ScreenOutput.cs" />
      <Compile Include="Assets\project\TerminalController.cs" />
      <Compile Include="Assets\project\coolingmodel\CoolingSystem.cs" />
      <Compile Include="Assets\project\coolingmodel\CoolingUtils.cs" />
+     <Compile Include="Assets\project\coolingmodel\CoreEntrance.cs" />
      <Compile Include="Assets\project\coolingmodel\Pipe.cs" />
      <Compile Include="Assets\project\coolingmodel\Pump.cs" />
+     <Compile Include="Assets\project\gamecore\NuclearGameCore.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\Plugins\TrueColorCP437\Materials\Shaders\ConsoleShader.shader" />
