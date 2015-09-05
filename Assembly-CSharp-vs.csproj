@@ -59,6 +59,14 @@
      <Compile Include="Assets\project\coolingmodel\CoreEntrance.cs" />
      <Compile Include="Assets\project\coolingmodel\Pipe.cs" />
      <Compile Include="Assets\project\coolingmodel\Pump.cs" />
+     <Compile Include="Assets\project\coolingmodel\PumpDrawer.cs" />
+     <Compile Include="Assets\project\coolingmodel\coolingcircuit\CircuitStatus.cs" />
+     <Compile Include="Assets\project\coolingmodel\coolingcircuit\CircuitUtils.cs" />
+     <Compile Include="Assets\project\coolingmodel\coolingcircuit\ConnectedRelee.cs" />
+     <Compile Include="Assets\project\coolingmodel\coolingcircuit\CoolingCircuit.cs" />
+     <Compile Include="Assets\project\coolingmodel\coolingcircuit\EngineInput.cs" />
+     <Compile Include="Assets\project\coolingmodel\coolingcircuit\PhaseInput.cs" />
+     <Compile Include="Assets\project\coolingmodel\coolingcircuit\Relee.cs" />
      <Compile Include="Assets\project\gamecore\NuclearGameCore.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScreenOutput
 {
 
-    public static readonly float LINES_PER_SECOND = 15;
+    public static readonly float LINES_PER_SECOND = 25;
 
     public static readonly Color DEFAULT_INPUT_COLOR = Color.green;
     public static readonly Color DEFAULT_CONSOLE_COLOR = Color.white;

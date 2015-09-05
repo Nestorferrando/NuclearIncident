@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using Assets.project.coolingmodel.coolingcircuit;
 using UnityEngine;
 
 
@@ -13,13 +14,15 @@ public class Pump
     private List<Pipe> connectedPipes;
     private Vector2 location;
     private float radiation;
+    private CoolingCircuit circuit;
 
 
-    public Pump(string pumpId,Vector2 location)
+    public Pump(string pumpId, Vector2 location, CoolingCircuit circuit)
     {
         PumpID = pumpId;
         this.location = location;
         this.status = PipeStatus.OFF;
+        this.circuit = circuit;
         this.connectedPipes = new List<Pipe>();
     }
 
@@ -29,7 +32,11 @@ public class Pump
         set { status = value; }
     }
 
- 
+    public CoolingCircuit Circuit
+    {
+        get { return circuit; }
+    }
+
 
     public float Radiation
     {
