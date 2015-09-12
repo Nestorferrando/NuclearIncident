@@ -120,12 +120,7 @@ public class CoolingUtils {
 
             if (elem[pointY*levelBitmap.width + pointX].Equals(CoolingElem.PUMP))
             {
-                int num = _random.Next(0, 26); // Zero to 25
-                char letter = (char)('A' + num);
-
-               ;
-
-               Pump pump = new Pump(_random.Next(10, 99) + "" + letter + "" + _random.Next(10, 99), new Vector2(pointX, pointY),CircuitUtils.generateCircuit());
+                Pump pump = new Pump(IDGenerator.generateID(), new Vector2(pointX, pointY), CircuitUtils.generateCircuit());
                 pump.ConnectedPipes.Add(pipe);
                 pipe.ConnectedPumps.Add(pump);
                 cooling.Pumps.Add(pump);
@@ -134,6 +129,7 @@ public class CoolingUtils {
         }
         return newAdditions;
     }
+
 
     private static bool evaluateFromPump(bool[] visited, int pointX, int pointY, Texture2D levelBitmap, CoolingElem[] elem,
         Pump pump, CoolingSystem cooling)

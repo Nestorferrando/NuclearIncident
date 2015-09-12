@@ -6,7 +6,7 @@ public class EngineInput
     private Relee tRelee;
 
 
-    public Relee TRelee
+    public Relee Relee
     {
         get { return tRelee; }
         set { tRelee = value; }

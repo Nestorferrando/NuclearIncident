@@ -13,10 +13,7 @@ public class NuclearGameCore : MonoBehaviour {
 
 	void Start ()
 	{
-
 	    coolingSystem = CoolingUtils.readFromResource("centralmapPipes");
-
-        
 	}
 
     public ScreenOutput WarningOutput

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
@@ -54,6 +55,77 @@ public class NuclearInterpreter
 
         {
             new CentralMapDrawer(core).drawStatus(output);
+            return;
+        }
+
+        if (new String(command).StartsWith("STATUS"))
+        {
+            String componentId = new String(command).Substring(7);
+
+            List<Pump> pumps = core.CoolingSystem.Pumps;
+
+            Pump selectedPump = null;
+
+            foreach (Pump pump in pumps)
+            {
+                if (pump.PumpId.Equals(componentId)) selectedPump = pump;
+            }
+
+            if (selectedPump != null)
+            {
+                PumpDrawer.draw(selectedPump, output);
+            }
+            else
+            {
+                output.addLine("Pump station not found", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            }
+            return;
+        }
+
+        if (new String(command).StartsWith("OPEN RELAY"))
+        {
+            String componentId = new String(command).Substring(12);
+
+            List<Pump> pumps = core.CoolingSystem.Pumps;
+
+            foreach (Pump pump in pumps)
+            {
+                Relee relee = pump.Circuit.getRelee(componentId);
+                if (relee != null)
+                {
+                    relee.Closed = false;
+                    output.addLine("Relay " + componentId + " opened", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    return;
+                }
+            }
+
+            output.addLine("Relay not found", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            return;
+        }
+
+        if (new String(command).StartsWith("CLOSE RELAY"))
+        {
+            String componentId = new String(command).Substring(12);
+
+            List < Pump > pumps = core.CoolingSystem.Pumps;
+
+            foreach (Pump pump in pumps)
+            {
+                Relee relee = pump.Circuit.getRelee(componentId);
+                if (relee != null)
+                {
+                    relee.Closed = true;
+                    output.addLine("Relay " + componentId + " closed", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    return;
+                }
+            }
+
+            output.addLine("Relay not found", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
             return;
         }
 

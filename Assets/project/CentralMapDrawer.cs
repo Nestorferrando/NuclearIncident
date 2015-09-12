@@ -36,7 +36,15 @@ public class CentralMapDrawer
             drawPumps(cooling, outputImage);
 
             //--------------------------
-            
+            /*
+            output.addLine("Retrieving status", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            output.addLine(".", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            output.addLine(".", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            output.addLine(".", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            output.addLine(".", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            output.addLine(".", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+            */
+
             output.addLine("Reactor #4 status at: "+System.DateTime.Now.ToString("hh:mm:ss"), ScreenOutput.DEFAULT_CONSOLE_COLOR);
 
             for (int i = levelBitmap.height-1; i >= 0; i--)

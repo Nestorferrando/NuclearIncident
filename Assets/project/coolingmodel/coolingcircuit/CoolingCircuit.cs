@@ -42,6 +42,25 @@ namespace Assets.project.coolingmodel.coolingcircuit
             get { return engineInputs; }
         }
 
+        public Relee getRelee(String id)
+        {
+            if (inputs[0].InputRelee.Id.Equals(id)) return inputs[0].InputRelee;
+            if (inputs[1].InputRelee.Id.Equals(id)) return inputs[1].InputRelee;
+            if (inputs[2].InputRelee.Id.Equals(id)) return inputs[2].InputRelee;
+
+
+            if (engineInputs[0].Relee.Id.Equals(id)) return engineInputs[0].Relee;
+            if (engineInputs[1].Relee.Id.Equals(id)) return engineInputs[1].Relee;
+            if (engineInputs[2].Relee.Id.Equals(id)) return engineInputs[2].Relee;
+
+            foreach (Relee relee in connectionRelees)
+            {
+                if (relee.Id.Equals(id))   return relee;
+            }
+
+            return null;
+        }
+
         public void reset()
         {
             inputs[0].InputRelee.Closed = false;
@@ -53,9 +72,9 @@ namespace Assets.project.coolingmodel.coolingcircuit
                 relee.Closed = false;
             }
 
-            engineInputs[0].TRelee.Closed = false;
-            engineInputs[1].TRelee.Closed = false;
-            engineInputs[2].TRelee.Closed = false;
+            engineInputs[0].Relee.Closed = false;
+            engineInputs[1].Relee.Closed = false;
+            engineInputs[2].Relee.Closed = false;
 
         }
 

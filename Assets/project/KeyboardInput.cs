@@ -95,13 +95,13 @@ public class KeyboardInput
 
     private void addCharacter(KeyCode vKey)
     {
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
+       // if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+       // {
             currentLine.Add(vKey.ToString()[0]);
-        }
-        else
-        {
-            currentLine.Add(Char.ToLower(vKey.ToString()[0]));
-        }
+      //  }
+      //  else
+    //    {
+     //       currentLine.Add(Char.ToLower(vKey.ToString()[0]));
+     //   }
     }
 }

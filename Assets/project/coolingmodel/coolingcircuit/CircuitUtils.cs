@@ -15,7 +15,7 @@ public  class CircuitUtils
     public static int PHASE2_LENGTH = 2;
     public static int PHASE3_LENGTH = 2;
 
-    public static int INTERCONNECTIONS = 3;
+    public static int INTERCONNECTIONS = 2;
 
       public static List<Color> circuitColors = new List<Color>
       {
@@ -66,7 +66,7 @@ public  class CircuitUtils
             usedColors.Remove(interConnection1);
             Color interConnection2 = usedColors[rnd.Next(usedColors.Count)];
             usedColors.Remove(interConnection2);
-            circuit.ConnectionRelees.Add(new Relee("RELEE",interConnection1,interConnection2));
+            circuit.ConnectionRelees.Add(new Relee(IDGenerator.generateID(), interConnection1, interConnection2));
         }
 
 
@@ -81,22 +81,21 @@ public  class CircuitUtils
         PhaseInput input = circuit.Inputs[phase];
 
           Color Color1 = shuffledColors.Dequeue();
-          Color Color2 = shuffledColors.Dequeue();
-
-          Relee relee = new Relee("RELEE", Color.clear, Color1);
-        input.InputRelee = relee;
+          Color Color2 = Color1;
+          Relee relee = new Relee(IDGenerator.generateID(), Color.clear, Color1);
+            input.InputRelee = relee;
 
         for (int i = 0; i < phase_length; i++)
         {
-            Relee newRelee = new Relee("RELEE", Color1, Color2);
-            circuit.ConnectionRelees.Add(newRelee);
-            usedColors.Add(Color2);
-            Color1 = Color2;
             Color2 = shuffledColors.Dequeue();
+            usedColors.Add(Color2);
+            Relee newRelee = new Relee(IDGenerator.generateID(), Color1, Color2);
+            circuit.ConnectionRelees.Add(newRelee);
+            Color1 = Color2;
         }
 
         EngineInput engineInput = circuit.EngineInputs[phase];
-        engineInput.TRelee = new Relee("RELEE", Color2, Color.clear);
+        engineInput.Relee = new Relee(IDGenerator.generateID(), Color2, Color.clear);
           return usedColors;
     }
 
@@ -117,9 +116,9 @@ public  class CircuitUtils
     {
 
         List<Relee> allRelees=new List<Relee>(circuit.ConnectionRelees);
-        allRelees.Add(circuit.EngineInputs[0].TRelee);
-        allRelees.Add(circuit.EngineInputs[1].TRelee);
-        allRelees.Add(circuit.EngineInputs[2].TRelee);
+        allRelees.Add(circuit.EngineInputs[0].Relee);
+        allRelees.Add(circuit.EngineInputs[1].Relee);
+        allRelees.Add(circuit.EngineInputs[2].Relee);
 
 
 
@@ -176,9 +175,9 @@ public  class CircuitUtils
 
             foreach (ConnectedRelee relee in releesWithPower)
             {
-                if (relee.Relee.Equals(circuit.EngineInputs[0].TRelee)) engineRelees.Add(relee);
-                if (relee.Relee.Equals(circuit.EngineInputs[1].TRelee)) engineRelees.Add(relee);
-                if (relee.Relee.Equals(circuit.EngineInputs[2].TRelee)) engineRelees.Add(relee);
+                if (relee.Relee.Equals(circuit.EngineInputs[0].Relee)) engineRelees.Add(relee);
+                if (relee.Relee.Equals(circuit.EngineInputs[1].Relee)) engineRelees.Add(relee);
+                if (relee.Relee.Equals(circuit.EngineInputs[2].Relee)) engineRelees.Add(relee);
             }
 
             if (engineRelees.Count != 3) {status = CircuitStatus.Status.OFF;}

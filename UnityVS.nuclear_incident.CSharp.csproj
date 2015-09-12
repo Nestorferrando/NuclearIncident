@@ -86,6 +86,7 @@
     <Compile Include="Assets\project\coolingmodel\CoreEntrance.cs" />
     <Compile Include="Assets\project\coolingmodel\coolingcircuit\CircuitUtils.cs" />
     <Compile Include="Assets\project\coolingmodel\coolingcircuit\Relee.cs" />
+    <Compile Include="Assets\project\coolingmodel\IDGenerator.cs" />
     <Compile Include="Assets\project\coolingmodel\PumpDrawer.cs" />
     <Compile Include="Assets\project\Example_C_Sharp.cs" />
     <Compile Include="Assets\project\KeyboardInput.cs" />

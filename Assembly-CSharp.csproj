@@ -57,6 +57,7 @@
      <Compile Include="Assets\project\coolingmodel\CoolingSystem.cs" />
      <Compile Include="Assets\project\coolingmodel\CoolingUtils.cs" />
      <Compile Include="Assets\project\coolingmodel\CoreEntrance.cs" />
+     <Compile Include="Assets\project\coolingmodel\IDGenerator.cs" />
      <Compile Include="Assets\project\coolingmodel\Pipe.cs" />
      <Compile Include="Assets\project\coolingmodel\Pump.cs" />
      <Compile Include="Assets\project\coolingmodel\PumpDrawer.cs" />
