@@ -68,7 +68,7 @@ public class NuclearInterpreter
 
             foreach (Pump pump in pumps)
             {
-                if (pump.PumpId.Equals(componentId)) selectedPump = pump;
+                if (pump.StationId.Equals(componentId)) selectedPump = pump;
             }
 
             if (selectedPump != null)
@@ -85,7 +85,7 @@ public class NuclearInterpreter
 
         if (new String(command).StartsWith("OPEN RELAY"))
         {
-            String componentId = new String(command).Substring(12);
+            String componentId = new String(command).Substring(11);
 
             List<Pump> pumps = core.CoolingSystem.Pumps;
 
@@ -117,9 +117,36 @@ public class NuclearInterpreter
                 Relee relee = pump.Circuit.getRelee(componentId);
                 if (relee != null)
                 {
+                    CircuitStatus oldStatus = CircuitUtils.calculateStatus(pump.Circuit);
                     relee.Closed = true;
                     output.addLine("Relay " + componentId + " closed", ScreenOutput.DEFAULT_CONSOLE_COLOR);
                     output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+
+                    CircuitStatus status = CircuitUtils.calculateStatus(pump.Circuit);
+
+                    if (status.CircuitStatus1.Equals(CircuitStatus.Status.SHORTCIRCUIT))
+                    {
+                        output.addLine("ERROR", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                        output.addLine("Power surge detected on Pump " + pump.StationId + ", opening all relays", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                        pump.Circuit.reset();
+                    }
+
+
+                    if (status.CircuitStatus1.Equals(CircuitStatus.Status.BAD_PHASE))
+                    {
+                        output.addLine("Warning, phases connected incorrectly. Engine can't start", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    }
+
+                    if (oldStatus.CircuitStatus1.Equals(CircuitStatus.Status.OFF) && status.CircuitStatus1.Equals(CircuitStatus.Status.ON))
+                    {
+                        output.addLine("Engine on Pump "+ pump.StationId +" powered, ready to start", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    }
+
+                    if (oldStatus.CircuitStatus1.Equals(CircuitStatus.Status.ON) && status.CircuitStatus1.Equals(CircuitStatus.Status.OFF))
+                    {
+                        output.addLine("Engine on Pump " + pump.StationId + " unpowered", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    }
+
                     return;
                 }
             }

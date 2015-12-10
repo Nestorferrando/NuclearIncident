@@ -150,9 +150,11 @@ public  class CircuitUtils
                     {
                         if (!releesWithPower.Contains(new ConnectedRelee(destinationRelee,relee.Phase)))
                         {
+                            if (destinationRelee.Closed) { 
+                                releesWithPower.Add(new ConnectedRelee(destinationRelee,relee.Phase));
+                                releesOfnewIteration.Add(new ConnectedRelee(destinationRelee,relee.Phase));
+                            }
 
-                            releesWithPower.Add(new ConnectedRelee(destinationRelee,relee.Phase));
-                            releesOfnewIteration.Add(new ConnectedRelee(destinationRelee,relee.Phase));
                         }
                         else
                         {
@@ -181,9 +183,10 @@ public  class CircuitUtils
             }
 
             if (engineRelees.Count != 3) {status = CircuitStatus.Status.OFF;}
+            else
             {
-                if ((1 >> engineRelees[0].Phase) + (1 >> engineRelees[1].Phase) +
-                    (1 >> engineRelees[2].Phase) != 7)
+                if ((1 << engineRelees[0].Phase) + (1 << engineRelees[1].Phase) +
+                    (1 << engineRelees[2].Phase) != 7)
                 {
                     status = CircuitStatus.Status.BAD_PHASE;
                 }

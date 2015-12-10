@@ -80,9 +80,9 @@ public class CentralMapDrawer
                     outputImage[y + 2 + i][x + 2 + j] = new ScreenCharacter(0, Color.cyan, Color.cyan);
                 }
             }
-            drawString(x + 2, y + 4, "PUMP: "+pump.PumpId, Color.magenta, Color.cyan, outputImage);
+            drawString(x + 2, y + 4, "PUMP: "+pump.StationId, Color.magenta, Color.cyan, outputImage);
             drawString(x + 2, y + 3, "RAD: "+pump.Radiation+" mR/h", Color.magenta, Color.cyan, outputImage);
-            drawString(x + 2, y + 2, "STATUS: "+pump.Status, Color.magenta, Color.cyan, outputImage);
+            drawString(x + 2, y + 2, pump.Status.ToString(), Color.magenta, Color.cyan, outputImage);
         }
     }
 
@@ -115,7 +115,7 @@ public class CentralMapDrawer
             {
                 int x = (int)layout.x;
                 int y = (int)layout.y;
-                outputImage[y][x] = new ScreenCharacter(0, Color.white, Color.white);
+                outputImage[y][x] = new ScreenCharacter(0, Color.blue, Color.blue);
             }
         }
 

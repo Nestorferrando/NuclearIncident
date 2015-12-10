@@ -40,7 +40,27 @@ public class PumpDrawer
         }
 
 
-        output.addLine("Pump " + pump.PumpId + " status at: " + DateTime.Now.ToString("hh:mm:ss"),
+
+        drawString(2, 20, "POWER SOURCE", Color.magenta, Color.cyan, outputImage);
+        drawString(2, 19, "10 kV", Color.magenta, Color.cyan, outputImage);
+
+
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                outputImage[6 + i][75 + j] = new ScreenCharacter(0, Color.cyan, Color.cyan);
+            }
+        }
+
+        drawString(75, 7, "PUMP ENGINE", Color.magenta, Color.cyan, outputImage);
+        //drawString(75, 7, "PUMP ENGINE", Color.magenta, Color.cyan, outputImage);
+
+
+
+
+
+        output.addLine("Pump " + pump.StationId + " status at: " + DateTime.Now.ToString("hh:mm:ss"),
             ScreenOutput.DEFAULT_CONSOLE_COLOR);
 
         for (int i = levelBitmap.height - 1; i >= 0; i--)
@@ -80,20 +100,22 @@ public class PumpDrawer
             outputImage[baseY + 3][baseX + 4] = new ScreenCharacter(0, Color.gray, Color.gray);
         }
 
+        /*
         for (int i = 0; i < 2; i++)
         {
             for (int j = 0; j < 9; j++)
             {
                 outputImage[baseY - 3 + i][baseX - 2 + j] = new ScreenCharacter(0, Color.cyan, Color.cyan);
             }
-        }
+        }*/
+
 
         drawString(baseX - 2, baseY - 2, "RELAY: " + relee.Id, Color.magenta, Color.cyan, outputImage);
         if (relee.Closed)
-            drawString(baseX - 2, baseY - 3, "STATUS: CLOSED", Color.magenta, Color.cyan, outputImage);
+            drawString(baseX - 2, baseY - 3, "CLOSED", Color.magenta, Color.cyan, outputImage);
         else
         {
-            drawString(baseX - 2, baseY - 3, "STATUS: OPEN", Color.magenta, Color.cyan, outputImage);
+            drawString(baseX - 2, baseY - 3, "OPEN", Color.magenta, Color.cyan, outputImage);
         }
 
     }

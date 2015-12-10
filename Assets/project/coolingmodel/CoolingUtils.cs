@@ -36,6 +36,7 @@ public class CoolingUtils {
                 {
                     visited[i*levelBitmap.width + j] = true;
                     Pipe pipe = new Pipe();
+                    pipe.Status=Pipe.PipeStatus.FULL;
                     pipe.Layout.Add(new Vector2(j,i));
                     sourcePipes.Add(pipe);
                 }

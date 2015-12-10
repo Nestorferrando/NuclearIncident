@@ -7,29 +7,46 @@ using UnityEngine;
 public class Pump
 {
 
-    public enum PipeStatus { NO_WATER, OFF, READY, ACTIVATED, ERROR};
+    public enum PumpStatus { NO_WATER, NO_POWER, READY, WORKING, ERROR};
 
-    private string PumpID;
-    private PipeStatus status;
+    private string stationID;
+   
     private List<Pipe> connectedPipes;
     private Vector2 location;
     private float radiation;
     private CoolingCircuit circuit;
 
 
-    public Pump(string pumpId, Vector2 location, CoolingCircuit circuit)
+    public Pump(string stationId, Vector2 location, CoolingCircuit circuit)
     {
-        PumpID = pumpId;
+        stationID = stationId;
         this.location = location;
-        this.status = PipeStatus.OFF;
+       
         this.circuit = circuit;
         this.connectedPipes = new List<Pipe>();
     }
 
-    public PipeStatus Status
+    public PumpStatus Status
     {
-        get { return status; }
-        set { status = value; }
+        get
+        {
+            bool hasWater = false;
+            foreach (Pipe pipe in connectedPipes)
+            {
+                if (pipe.Status.Equals(Pipe.PipeStatus.FULL)) hasWater = true;
+            }
+
+            if (!hasWater) return PumpStatus.NO_WATER;
+
+            CircuitStatus status = CircuitUtils.calculateStatus(circuit);
+
+
+            if (!status.Equals(CircuitStatus.Status.ON)) return PumpStatus.NO_POWER;
+
+
+
+            return PumpStatus.READY;
+        }
     }
 
     public CoolingCircuit Circuit
@@ -44,9 +61,9 @@ public class Pump
         set { radiation = value; }
     }
 
-    public string PumpId
+    public string StationId
     {
-        get { return PumpID; }
+        get { return stationID; }
     }
 
     public List<Pipe> ConnectedPipes
