@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using System.Collections;
 
 public class NuclearGameCore : MonoBehaviour {
 
 	// Use this for initialization
 
     private CoolingSystem coolingSystem;
-    private ScreenOutput warningOutput;
+    private ScreenOutput output;
+
+    private Pump pumpToStart;
 
 
 	void Start ()
@@ -18,7 +18,7 @@ public class NuclearGameCore : MonoBehaviour {
 
     public ScreenOutput WarningOutput
     {
-        set { warningOutput = value; }
+        set { output = value; }
     }
 
     public CoolingSystem CoolingSystem
@@ -32,16 +32,28 @@ public class NuclearGameCore : MonoBehaviour {
 
 	}
 
+    public void startPump(Pump pump)
+    {
+        this.pumpToStart = pump;
+        Invoke("_startPump", 3.0f);
+    }
+
+    private void _startPump()
+    {
+        output.addLine("Pump " + pumpToStart.StationId + " online", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+        output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+        pumpToStart.start();
+    }
 
     private void warningMessage(String message)
     {
-        warningOutput.addLine(System.DateTime.Now.ToString("hh:mm:ss") + ">> " + message + " <<", Color.yellow);
-        warningOutput.addLine("", Color.black);
+        output.addLine(System.DateTime.Now.ToString("hh:mm:ss") + ">> " + message + " <<", Color.yellow);
+        output.addLine("", Color.black);
     }
     private void errorMessage(String message)
     {
-        warningOutput.addLine(System.DateTime.Now.ToString("hh:mm:ss") + ">>> " + message + " <<<", Color.red);
-        warningOutput.addLine("", Color.black);
+        output.addLine(System.DateTime.Now.ToString("hh:mm:ss") + ">>> " + message + " <<<", Color.red);
+        output.addLine("", Color.black);
     }
 
 

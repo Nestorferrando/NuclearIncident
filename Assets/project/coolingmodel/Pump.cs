@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using Assets.project.coolingmodel.coolingcircuit;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class Pump
     private Vector2 location;
     private float radiation;
     private CoolingCircuit circuit;
+    private bool started = false;
 
 
     public Pump(string stationId, Vector2 location, CoolingCircuit circuit)
@@ -41,13 +43,28 @@ public class Pump
             CircuitStatus status = CircuitUtils.calculateStatus(circuit);
 
 
-            if (!status.Equals(CircuitStatus.Status.ON)) return PumpStatus.NO_POWER;
+            if (!status.CircuitStatus1.Equals(CircuitStatus.Status.ON)) return PumpStatus.NO_POWER;
 
-
+            if (started) return PumpStatus.WORKING;
 
             return PumpStatus.READY;
         }
     }
+
+    public bool start()
+    {
+        if (!this.Status.Equals(PumpStatus.READY))   return false;
+
+        foreach (Pipe pipe in connectedPipes)
+        {
+           pipe.Status = Pipe.PipeStatus.FULL;
+        }
+
+        started = true;
+        return true;
+    }
+
+
 
     public CoolingCircuit Circuit
     {
