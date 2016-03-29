@@ -89,6 +89,8 @@
     <Compile Include="Assets\project\coolingmodel\IDGenerator.cs" />
     <Compile Include="Assets\project\coolingmodel\PumpDrawer.cs" />
     <Compile Include="Assets\project\Example_C_Sharp.cs" />
+    <Compile Include="Assets\project\gamecore\RadiationPumps.cs" />
+    <Compile Include="Assets\project\gamecore\Reactor.cs" />
     <Compile Include="Assets\project\KeyboardInput.cs" />
     <Compile Include="Assets\project\gamecore\NuclearGameCore.cs" />
     <Compile Include="Assets\project\NuclearInterpreter.cs" />

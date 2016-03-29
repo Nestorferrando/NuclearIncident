@@ -32,6 +32,8 @@ public class Pump
     {
         get
         {
+            if (radiation >= RadiationPumps.MAX_RADIATION) return PumpStatus.ERROR;
+
             bool hasWater = false;
             foreach (Pipe pipe in connectedPipes)
             {

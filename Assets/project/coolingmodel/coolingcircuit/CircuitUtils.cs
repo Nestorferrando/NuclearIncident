@@ -11,13 +11,13 @@ public  class CircuitUtils
 
     private static Random rnd = new Random();
 
-    public static int PHASE1_LENGTH = 0;// 2;
-    public static int PHASE2_LENGTH = 0;//2;
-    public static int PHASE3_LENGTH = 0;// 2;
+    public static int PHASE1_LENGTH = 2;
+    public static int PHASE2_LENGTH = 2;
+    public static int PHASE3_LENGTH = 2;
 
 
 
-    public static int INTERCONNECTIONS = 0;// 2;
+    public static int INTERCONNECTIONS = 2;
 
       public static List<Color> circuitColors = new List<Color>
       {

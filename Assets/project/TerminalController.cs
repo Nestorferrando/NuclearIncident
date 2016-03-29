@@ -18,12 +18,12 @@ public class TerminalController : MonoBehaviour
     private void Start()
     {
         screenOutput = new ScreenOutput();
+        screenOutput.Start(GetComponent<Console>(), GetComponents<AudioSource>()[1]);
         keyboardInput = new KeyboardInput();
         interpreter = new NuclearInterpreter(GetComponent<NuclearGameCore>(),screenOutput);
         GetComponent<NuclearGameCore>().WarningOutput = screenOutput;
-        screenOutput.Start(GetComponent<Console>());
         commandQueue = new Queue<List<char>>();
-        keyboardInput.Start();
+        keyboardInput.Start(GetComponents<AudioSource>()[0]);
     }
 
 

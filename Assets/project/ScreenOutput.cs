@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class ScreenOutput
 {
-
     public static readonly float LINES_PER_SECOND = 25;
 
     public static readonly Color DEFAULT_INPUT_COLOR = Color.green;
@@ -12,6 +12,7 @@ public class ScreenOutput
 
     private readonly Queue<ScreenCharacter[]> inernalBuffer = new Queue<ScreenCharacter[]>();
     private readonly List<ScreenCharacter[]> renderBuffer = new List<ScreenCharacter[]>();
+    private AudioSource audioSource;
     private Console console;
     private int frameBufferHeight;
     private String inputBuffer = "";
@@ -19,9 +20,10 @@ public class ScreenOutput
     private int internalLineIndex;
 
     private float lastLineAdd;
+    private AudioClip longRenderClip;
     private int renderLineIndex;
 
-    public void Start(Console _console)
+    public void Start(Console _console, AudioSource audioSource)
     {
         // Getting a reference on the Console component :
         console = _console;
@@ -35,24 +37,40 @@ public class ScreenOutput
 
         frameBufferHeight = console.height - 1;
         lastLineAdd = Time.realtimeSinceStartup;
+
+        this.audioSource = audioSource;
+        this.audioSource.loop = true;
+        longRenderClip = Resources.Load("longRender") as AudioClip;
+        this.audioSource.clip = longRenderClip;
     }
 
 
     public void addLine(ScreenCharacter[] line)
     {
         inernalBuffer.Enqueue(line);
+
+        if (inernalBuffer.Count > 5 && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
     }
 
     public void addLine(String inLine, Color color)
     {
-        ScreenCharacter[] line = new ScreenCharacter[inLine.Length];
-        byte[] encodings = System.Text.Encoding.Default.GetBytes(inLine);
+        var line = new ScreenCharacter[inLine.Length];
+        byte[] encodings = Encoding.Default.GetBytes(inLine);
         for (int i = 0; i < inLine.Length; i++)
         {
-            line[i] = new ScreenCharacter(encodings[i],color,Color.black);
+            line[i] = new ScreenCharacter(encodings[i], color, Color.black);
         }
 
         inernalBuffer.Enqueue(line);
+
+        if (inernalBuffer.Count > 5 && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+
     }
 
 
@@ -64,7 +82,6 @@ public class ScreenOutput
 
     public void Update()
     {
-       
         updateBuffer();
         // Drawing in the console begins here :
         console.PrepareUpdate();
@@ -76,9 +93,9 @@ public class ScreenOutput
 
     private void renderizeInput()
     {
-            console.GlyphColor = DEFAULT_INPUT_COLOR;
-            console.BackgroundColor = Color.black;
-            console.DrawString(0,0,inputBuffer);
+        console.GlyphColor = DEFAULT_INPUT_COLOR;
+        console.BackgroundColor = Color.black;
+        console.DrawString(0, 0, inputBuffer);
     }
 
     private void renderizeBuffer()
@@ -92,7 +109,7 @@ public class ScreenOutput
                     console.Glyph = renderBuffer[i][j].GlyphIndex;
                     console.GlyphColor = renderBuffer[i][j].GlyphColor;
                     console.BackgroundColor = renderBuffer[i][j].BackgroundColor;
-                    console.SetTile(j, i+1);
+                    console.SetTile(j, i + 1);
                 }
             }
         }
@@ -102,12 +119,18 @@ public class ScreenOutput
     {
         if (inernalBuffer.Count > 0 && Time.realtimeSinceStartup - lastLineAdd > (1/LINES_PER_SECOND))
         {
-            renderBuffer.Insert(0,inernalBuffer.Dequeue());
+            renderBuffer.Insert(0, inernalBuffer.Dequeue());
             lastLineAdd = Time.realtimeSinceStartup;
             if (renderBuffer.Count > frameBufferHeight)
             {
                 renderBuffer.RemoveAt(renderBuffer.Count - 1);
             }
+
+            if (inernalBuffer.Count == 0 && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+
         }
     }
 }

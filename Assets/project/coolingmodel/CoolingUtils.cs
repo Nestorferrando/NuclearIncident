@@ -58,12 +58,13 @@ public class CoolingUtils {
                 {
                     int pointX = (int)point.x;
                     int pointY = (int)point.y;
-                    newPointsAdded = evaluateFromPipe(visited, pointX - 1, pointY, levelBitmap, elem, pipe, cooling) || newPointsAdded;
-                    newPointsAdded = evaluateFromPipe(visited, pointX, pointY + 1, levelBitmap, elem, pipe, cooling) || newPointsAdded;
-                    newPointsAdded = evaluateFromPipe(visited, pointX + 1, pointY, levelBitmap, elem, pipe, cooling) || newPointsAdded;
-                    newPointsAdded = evaluateFromPipe(visited, pointX, pointY - 1, levelBitmap, elem, pipe, cooling) || newPointsAdded;
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX - 1, pointY, levelBitmap, elem, pipe, cooling) ;
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX, pointY + 1, levelBitmap, elem, pipe, cooling) ;
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX + 1, pointY, levelBitmap, elem, pipe, cooling) ;
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX, pointY - 1, levelBitmap, elem, pipe, cooling) ;
                 }
             }
+
 
             foreach (Pipe pipe in cooling.Pipes)
             {
@@ -72,10 +73,10 @@ public class CoolingUtils {
                 {
                     int pointX = (int)point.x;
                     int pointY = (int)point.y;
-                    newPointsAdded = evaluateFromPipe(visited, pointX - 1, pointY, levelBitmap, elem, pipe, cooling) || newPointsAdded;
-                    newPointsAdded = evaluateFromPipe(visited, pointX, pointY + 1, levelBitmap, elem, pipe, cooling) || newPointsAdded;
-                    newPointsAdded = evaluateFromPipe(visited, pointX + 1, pointY, levelBitmap, elem, pipe, cooling) || newPointsAdded;
-                    newPointsAdded = evaluateFromPipe(visited, pointX, pointY - 1, levelBitmap, elem, pipe, cooling) || newPointsAdded;
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX - 1, pointY, levelBitmap, elem, pipe, cooling);
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX, pointY + 1, levelBitmap, elem, pipe, cooling);
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX + 1, pointY, levelBitmap, elem, pipe, cooling);
+                    if (!newPointsAdded) newPointsAdded = evaluateFromPipe(visited, pointX, pointY - 1, levelBitmap, elem, pipe, cooling);
                 } 
             }
 
@@ -85,10 +86,10 @@ public class CoolingUtils {
             {
                 int pointX = (int)pump.Location.x;
                 int pointY = (int)pump.Location.y;
-                newPointsAdded = evaluateFromPump(visited, pointX, pointY - 1, levelBitmap, elem, pump, cooling) || newPointsAdded;
-                newPointsAdded = evaluateFromPump(visited, pointX, pointY + 1, levelBitmap, elem, pump, cooling) || newPointsAdded;
-                newPointsAdded = evaluateFromPump(visited, pointX - 1, pointY, levelBitmap, elem, pump, cooling) || newPointsAdded;
-                newPointsAdded = evaluateFromPump(visited, pointX + 1, pointY, levelBitmap, elem, pump, cooling) || newPointsAdded;
+                if (!newPointsAdded) newPointsAdded = evaluateFromPump(visited, pointX, pointY - 1, levelBitmap, elem, pump, cooling);
+                if (!newPointsAdded) newPointsAdded = evaluateFromPump(visited, pointX, pointY + 1, levelBitmap, elem, pump, cooling);
+                if (!newPointsAdded) newPointsAdded = evaluateFromPump(visited, pointX - 1, pointY, levelBitmap, elem, pump, cooling);
+                if (!newPointsAdded) newPointsAdded = evaluateFromPump(visited, pointX + 1, pointY, levelBitmap, elem, pump, cooling);
             }
         }
 
@@ -99,10 +100,8 @@ public class CoolingUtils {
         Pipe pipe, CoolingSystem cooling)
     {
 
-        bool newAdditions = false;
-
         if (pointX < 0 || pointY < 0 || pointX >= levelBitmap.width || pointY >= levelBitmap.height)
-            return newAdditions;
+            return false;
 
         if (!visited[pointY*levelBitmap.width + pointX])
         {
@@ -110,13 +109,13 @@ public class CoolingUtils {
             if (elem[pointY*levelBitmap.width + pointX].Equals(CoolingElem.PIPE))
             {
                 pipe.Layout.Add(new Vector2(pointX, pointY));
-                newAdditions = true;
+                return true;
             }
 
             if (elem[pointY * levelBitmap.width + pointX].Equals(CoolingElem.ENDING))
             {
                 cooling.CorenEntrances.Add(new CoreEntrance(new Vector2(pointX, pointY)));
-                newAdditions = true;
+                return true;
             }
 
             if (elem[pointY*levelBitmap.width + pointX].Equals(CoolingElem.PUMP))
@@ -125,10 +124,29 @@ public class CoolingUtils {
                 pump.ConnectedPipes.Add(pipe);
                 pipe.ConnectedPumps.Add(pump);
                 cooling.Pumps.Add(pump);
-                newAdditions = true;
+                return true;
             }
         }
-        return newAdditions;
+
+        else
+        {
+            if (elem[pointY * levelBitmap.width + pointX].Equals(CoolingElem.PUMP))
+            {
+                
+                foreach (Pump pump in cooling.Pumps)
+                {
+                    int pumpX = (int) pump.Location.x;
+                    int pumpY = (int) pump.Location.y;
+                    if (pumpX == pointX && pumpY == pointY)
+                    {
+                        pump.ConnectedPipes.Add(pipe);
+                        return false;
+                    }
+                   
+                }
+            }
+        }
+        return false;
     }
 
 

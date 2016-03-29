@@ -69,6 +69,8 @@
      <Compile Include="Assets\project\coolingmodel\coolingcircuit\PhaseInput.cs" />
      <Compile Include="Assets\project\coolingmodel\coolingcircuit\Relee.cs" />
      <Compile Include="Assets\project\gamecore\NuclearGameCore.cs" />
+     <Compile Include="Assets\project\gamecore\RadiationPumps.cs" />
+     <Compile Include="Assets\project\gamecore\Reactor.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\Plugins\TrueColorCP437\Materials\Shaders\ConsoleShader.shader" />

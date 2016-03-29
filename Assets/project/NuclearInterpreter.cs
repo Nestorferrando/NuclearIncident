@@ -8,6 +8,8 @@ public class NuclearInterpreter
     private NuclearGameCore core;
     private ScreenOutput output;
 
+    private bool firstTimeStatus = true;
+
     public NuclearInterpreter(NuclearGameCore core, ScreenOutput output)
     {
         this.core = core;
@@ -37,6 +39,11 @@ public class NuclearInterpreter
 
         {
             new CentralMapDrawer(core).drawStatus(output);
+            if (firstTimeStatus)
+            {
+                core.startOverHeat();
+            }
+            firstTimeStatus = false;
             return;
         }
 
@@ -85,6 +92,13 @@ public class NuclearInterpreter
 
         if (selectedPump != null)
         {
+
+            if (selectedPump.Status == Pump.PumpStatus.ERROR)
+            {
+                output.addLine("Error, pump " + selectedPump.StationId + " is inaccessible", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                return;
+            }
+
             if (selectedPump.Status.Equals(Pump.PumpStatus.WORKING))
             {
                 output.addLine("Pump " + selectedPump.StationId + " is already online",
@@ -151,6 +165,12 @@ public class NuclearInterpreter
 
         if (selectedPump != null)
         {
+            if (selectedPump.Status == Pump.PumpStatus.ERROR)
+            {
+                output.addLine("Error, pump " + selectedPump.StationId + " is inaccessible", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                return;
+            }
+
             PumpDrawer.draw(selectedPump, output);
         }
         else
@@ -177,6 +197,12 @@ public class NuclearInterpreter
                     output.addLine("Pump " + pump.StationId + " is online, cannot manually access to its circuitry",
                         ScreenOutput.DEFAULT_CONSOLE_COLOR);
                     output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    return;
+                }
+
+                if (pump.Status == Pump.PumpStatus.ERROR)
+                {
+                    output.addLine("Error, pump " + pump.StationId + " is inaccessible", ScreenOutput.DEFAULT_CONSOLE_COLOR);
                     return;
                 }
 
@@ -210,6 +236,13 @@ public class NuclearInterpreter
                     output.addLine("", ScreenOutput.DEFAULT_CONSOLE_COLOR);
                     return;
                 }
+
+                if (pump.Status == Pump.PumpStatus.ERROR)
+                {
+                    output.addLine("Error, pump " + pump.StationId + " is inaccessible", ScreenOutput.DEFAULT_CONSOLE_COLOR);
+                    return;
+                }
+
                 CircuitStatus oldStatus = CircuitUtils.calculateStatus(pump.Circuit);
                 relee.Closed = true;
                 output.addLine("Relay " + componentId + " closed", ScreenOutput.DEFAULT_CONSOLE_COLOR);

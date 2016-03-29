@@ -12,6 +12,11 @@ public class KeyboardInput
 
     private float lastTimePressedKeyboard;
     private float lastTimeCharRemoved;
+    private AudioSource audioSource;
+
+    private List<AudioClip> keys;
+    private AudioClip returnKey;
+    private AudioClip spaceKey;
 
 
     public float LastTimePressedKeyboard
@@ -29,10 +34,18 @@ public class KeyboardInput
         get { return returnPressed; }
     }
 
-    public void Start()
+    public void Start(AudioSource audioSource)
     {
         currentLine = new List<Char>();
         returnPressed = false;
+        this.audioSource = audioSource;
+        this.keys = new List<AudioClip>();
+        for (int i = 0; i < 10; i++)
+        {
+            this.keys.Add(Resources.Load("key"+i) as AudioClip);
+        }
+        this.returnKey = Resources.Load("return") as AudioClip;
+        this.spaceKey = Resources.Load("space") as AudioClip;
     }
 
     public void lineProcessed()
@@ -47,17 +60,28 @@ public class KeyboardInput
     {
         foreach (KeyCode vKey in Enum.GetValues(typeof (KeyCode)))
         {
+
+          
             if (Input.GetKeyDown(vKey))
             {
+                int sound = vKey.GetHashCode() % 10;
+
                 if (vKey >= KeyCode.A && vKey <= KeyCode.Z)
                 {
                     addCharacter(vKey);
+                    audioSource.PlayOneShot(keys[sound]);
                 }
 
 
                 if (vKey >= KeyCode.Alpha0 && vKey <= KeyCode.Alpha9)
                 {
                     currentLine.Add(vKey.ToString()[vKey.ToString().Length - 1]);
+                    audioSource.PlayOneShot(keys[sound]);
+                }
+
+                if (vKey == KeyCode.Backspace)
+                {
+                    audioSource.PlayOneShot(keys[sound]); 
                 }
 
                 if (vKey == KeyCode.Backspace && currentLine.Count > 0 && Time.realtimeSinceStartup - lastTimeCharRemoved > 1.0f / CHARACTER_REMOVAL_PER_SECOND)
@@ -69,11 +93,13 @@ public class KeyboardInput
                 if (vKey == KeyCode.Space)
                 {
                     currentLine.Add(' ');
+                    audioSource.PlayOneShot(spaceKey);
                 }
 
                 if (vKey == KeyCode.Return)
                 {
                     returnPressed = true;
+                    audioSource.PlayOneShot(returnKey);
                 }
                 lastTimePressedKeyboard = Time.realtimeSinceStartup;
             }
@@ -95,13 +121,7 @@ public class KeyboardInput
 
     private void addCharacter(KeyCode vKey)
     {
-       // if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-       // {
+   
             currentLine.Add(vKey.ToString()[0]);
-      //  }
-      //  else
-    //    {
-     //       currentLine.Add(Char.ToLower(vKey.ToString()[0]));
-     //   }
     }
 }
